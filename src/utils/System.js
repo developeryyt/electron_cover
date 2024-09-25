@@ -1,9 +1,11 @@
-import path from "node:path";
-import {BrowserWindow} from "electron";
+const { BrowserWindow } = require('electron')
+const path = require('path')
+
 
 class System {
 
     static #Win;
+    instance
 
     static get Shared() {
         if(System.#Win) {
@@ -15,10 +17,13 @@ class System {
     }
 
     constructor() {
-
+        if(System.#Win) {
+            return System.#Win
+        }
+        System.#Win = this;
     }
 
-    createWindow = (url, opt = {}) => {
+    createWin(opt = {}) {
         let options = {
             resizable: true,
             webPreferences: {
@@ -26,14 +31,38 @@ class System {
                 contextIsolation: true,
                 webviewTag: true,
                 webSecurity: false,
-                preload: path.join(__dirname, './preload/index.js'),
-                devTools: true,
+                preload: path.join(__dirname, '../preload/index.js'),
             },
             ...opt,
         }
 
+        this.instance = new BrowserWindow(options)
+
+        return this;
+    }
+
+    showView(channel, type) {
+
+        if(type === 'file') {
+            this.instance?.loadFile(channel)
+        }
+        if(type === 'url') {
+            this.instance?.loadURL(channel)
+        }
+
+        return this;
+    }
+
+
+    get Instance() {
+        return this.instance
     }
 
 }
+
+// const systemInstance = System.Shared;
+
+module.exports = System
+
 
 
