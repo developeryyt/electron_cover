@@ -60,8 +60,6 @@ class System {
 
 }
 
-// const systemInstance = System.Shared;
-
 module.exports = System
 
 

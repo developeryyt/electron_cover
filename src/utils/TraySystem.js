@@ -12,7 +12,7 @@ class TraySystem extends System {
     }
 
     async init() {
-        console.log(this.instance, '인스턴스 상속')
+        // console.log(this.instance, '인스턴스 상속')
         // if(icon) nativeImage.createFromDataURL(icon)
         let icon = nativeImage.createFromPath(path.join(__dirname, '..', 'assets', 'img', 'icon_ring.png'))
         console.log(icon, '아이콘 사이즈')
